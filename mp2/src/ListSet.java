@@ -1,11 +1,17 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ListSet implements Iterator<Integer>{
+public class ListSet implements Iterable<Integer>{
 
-	ArrayList<Integer> array;	//podria cambiarse por LinkedList
+	ArrayList<Integer> array = new ArrayList<Integer>();	//podria cambiarse por LinkedList
 	
-	
+
+	@Override
+	public Iterator<Integer> iterator() {
+		// TODO Auto-generated method stub
+		return array.iterator();
+	}
+
 	
 	/**
 	 * Constructor de la clase
@@ -14,19 +20,6 @@ public class ListSet implements Iterator<Integer>{
 		super();
 	}
 	
-
-	@Override
-	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-
-	@Override
-	public Integer next() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	/**
@@ -42,8 +35,8 @@ public class ListSet implements Iterator<Integer>{
 	 * @return true if empty, false if not empty
 	 */
 	public boolean isEmpty() {
-		if (array.size() < 1) return true;
-		return false;
+		return (array.size() < 1);
+		
 	}
 	
 	
@@ -72,7 +65,11 @@ public class ListSet implements Iterator<Integer>{
 	 * @return
 	 */
 	public boolean containsAll(ListSet set) {
-		return array.containsAll(set);	//esto esta mal, no admite la clase
+		//return array.containsAll(set);	//esto esta mal, no admite la clase
+		for(Integer elem : set) {
+			if(!this.contains(elem)) return false;
+		}
+		return true;
 	}
 	
 	
@@ -81,7 +78,7 @@ public class ListSet implements Iterator<Integer>{
 	 * @param elem
 	 */
 	public void add(Integer elem) {
-		array.add(elem);
+		if(!this.contains(elem)) array.add(elem);
 	}
 	
 	
@@ -91,7 +88,9 @@ public class ListSet implements Iterator<Integer>{
 	 */
 	// En este link se explica como hacerlo https://howtodoinjava.com/java/collections/arraylist/merge-arraylists/
 	public void addAll(ListSet set) {
-		
+		for(Integer elem : set) {
+			this.add(elem);
+		}
 	}
 	
 	
@@ -109,8 +108,9 @@ public class ListSet implements Iterator<Integer>{
 	 * @param set
 	 */
 	public void removeAll(ListSet set) {
-		array.removeAll(set);	//no funciona por lo mismo que el contains all
-		
+		for(Integer elem : set) {
+			this.remove(elem);
+		}
 	}
 	
 	
@@ -118,9 +118,22 @@ public class ListSet implements Iterator<Integer>{
 	 * Intersection of two ListSets
 	 * @param set
 	 */
-	public void retainAll(ListSet set) {
-		
+	public ListSet retainAll(ListSet set) {
+		ListSet result = new ListSet();
+		for(Integer elem : set) {
+			if(array.contains(elem)) result.add(elem);
+		}
+		return result;
 	}
 	
+	
+	/**
+	 * Prints the content of the set
+	 */
+	public void printSet() {
+		System.out.println("Printing set: ");
+		System.out.println(array.toString());
+	}
+
 
 }
