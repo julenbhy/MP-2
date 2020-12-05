@@ -1,32 +1,26 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ListSet implements Iterable<Integer>{
+public class FuzzyListSet extends ListSet{
 
-	protected ArrayList<Integer> array = new ArrayList<Integer>();	//podria cambiarse por LinkedList
+	private ArrayList<Float> fuzzyArray = new ArrayList<Float>();	//podria cambiarse por LinkedList
 	
-
-	@Override
-	public Iterator<Integer> iterator() {
-		// TODO Auto-generated method stub
-		return array.iterator();
-	}
-
 	
 	/**
-	 * Constructor de la clase
+	 * 
 	 */
-	public ListSet() {
+	public FuzzyListSet() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 	
 	
-	
 	/**
-	 * Set the ListSet to empty
+	 * Set the FuzzyListSet to empty
 	 */
 	public void clear() {
-		array.clear(); //.clear() es mas eficiente, pero removeAll() tambien podria ser interesante
+		super.clear();
+		fuzzyArray.clear();
 	}
 	
 	
@@ -35,17 +29,16 @@ public class ListSet implements Iterable<Integer>{
 	 * @return true if empty, false if not empty
 	 */
 	public boolean isEmpty() {
-		return (array.size() < 1);
-		
+		return (super.isEmpty() && (fuzzyArray.size() < 1));
 	}
 	
 	
 	/**
 	 * Cardinality
-	 * @return the size of the ListSet
+	 * @return the size of the FuzzyListSet
 	 */
 	public int size() {
-		return array.size();	
+		return super.size();	
 	}
 	
 	
@@ -55,7 +48,7 @@ public class ListSet implements Iterable<Integer>{
 	 * @return
 	 */
 	public boolean contains(Integer elem) {
-		return array.contains(elem);
+		return super.contains(elem);
 	}
 	
 	
@@ -64,7 +57,7 @@ public class ListSet implements Iterable<Integer>{
 	 * @param set
 	 * @return
 	 */
-	public boolean containsAll(ListSet set) {
+	public boolean containsAll(FuzzyListSet set) {
 		//return array.containsAll(set);	//esto esta mal, no admite la clase
 		for(Integer elem : set) {
 			if(!this.contains(elem)) return false;
@@ -74,37 +67,35 @@ public class ListSet implements Iterable<Integer>{
 	
 	
 	/**
-	 * Adds element to the ListSet
+	 * Adds element to the FuzzyListSet
 	 * @param elem
 	 */
-	public boolean add(Integer elem) {
-		if(!this.contains(elem)) {
-			array.add(elem);
-			return true;
-		}
-		return false;
+	public void add(Integer elem, Float elem2) {
+		if(super.add(elem)) fuzzyArray.add(elem2);
 	}
 	
 	
 	/**
-	 * Union of two ListSets
+	 * Union of two FuzzyListSets
 	 * @param set
 	 */
 	// En este link se explica como hacerlo https://howtodoinjava.com/java/collections/arraylist/merge-arraylists/
-	public void addAll(ListSet set) {
+	public void addAll(FuzzyListSet set) {
+		int i = 0;
 		for(Integer elem : set) {
-			this.add(elem);
+			this.add(elem, set.getFuzzyFromIndex(i)); 	//gets the elem on index i from the fuzzyArray of set
+			i++;
 		}
 	}
 	
 	
 	/**
-	 * Removes an elem from the ListSet
+	 * Removes an elem from the FuzzyListSet
 	 * @param elem
 	 */
 	public int remove(Integer elem) {
-		int index = array.indexOf(elem);	//need the index for FuzzyArrayList
-		array.remove(index);
+		int index = super.remove(elem);
+		fuzzyArray.remove(index);	//gets the index from the super class remove method
 		return index;
 	}
 	
@@ -113,7 +104,7 @@ public class ListSet implements Iterable<Integer>{
 	 * Removes the content of a ListSet from a ListSet 
 	 * @param set
 	 */
-	public void removeAll(ListSet set) {
+	public void removeAll(FuzzyListSet set) {
 		for(Integer elem : set) {
 			this.remove(elem);
 		}
@@ -124,7 +115,7 @@ public class ListSet implements Iterable<Integer>{
 	 * Intersection of two ListSets
 	 * @param set
 	 */
-	public ListSet retainAll(ListSet set) {
+	public ListSet retainAll(FuzzyListSet set) {
 		ListSet result = new ListSet();
 		for(Integer elem : set) {
 			if(array.contains(elem)) result.add(elem);
@@ -137,7 +128,14 @@ public class ListSet implements Iterable<Integer>{
 	 * Prints the content of the set
 	 */
 	public String toString() {
-		return (array.toString());
+		//String str = super.toString().substring(1, super.toString().length()-1); //the ListSet String deleting the claus
+		return (super.toString() + fuzzyArray.toString());
+	}
+	
+	
+	
+	public float getFuzzyFromIndex(int index) {
+		return (fuzzyArray.get(index));
 	}
 
 

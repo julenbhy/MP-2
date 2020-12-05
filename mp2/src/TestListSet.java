@@ -1,5 +1,8 @@
-public class main {
+public class TestListSet {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -9,17 +12,17 @@ public class main {
 		if(!setA.isEmpty()) System.out.println("Set isn't empty");
 		setA.add(Integer.valueOf(2));
 		setA.add(Integer.valueOf(3));
-		setA.printSet();
+		System.out.println("Printing setA: " + setA.toString());
 		System.out.println("Set's size: "+setA.size());
 		if(setA.contains(Integer.valueOf(2))) System.out.println("The set contains 2");
 		if(!setA.contains(Integer.valueOf(4))) System.out.println("The set doesn't contains 4");
 		System.out.println("Remove element 3");
 		setA.remove(Integer.valueOf(3));
-		setA.printSet();
+		System.out.println("Printing setA: " + setA.toString());
 		//System.out.println("Set's size: "+setA.size());
 		System.out.println("Clear set");
 		setA.clear();
-		setA.printSet();
+		System.out.println("Printing setA: " + setA.toString());
 		//System.out.println("Set's size: "+setA.size());
 		
 		
@@ -43,15 +46,15 @@ public class main {
 		
 		System.out.println("Printing retail of setB and setA: ");
 		ListSet retail = setB.retainAll(setA);
-		retail.printSet();
+		System.out.println("Printing retail: " + retail.toString());
 		
 		System.out.println("Printing sum of setA and set B:");
 		setA.addAll(setB);
-		setA.printSet();
+		System.out.println("Printing setA: " + setA.toString());
 		
 		System.out.println("Printing remove of setC on setA:");
 		setA.removeAll(setC);
-		setA.printSet();
+		System.out.println("Printing setA: " + setA.toString());
 
 	}
 }
